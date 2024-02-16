@@ -8,9 +8,17 @@ var logger = require('morgan');
 
 const connectDB = require('./config/db');
 
-var indexRouter = require('./routes/index');
+/* var indexRouter = require('./routes/index'); */
+/* RUTAS */ 
+const app = express();
 
-var app = express();
+app
+  .use('/',require('./routes/index.routes'))
+  .use('/api/auth',require('./routes/auth.routes')) 
+  .use('/api/users',require('./routes/users.routes')) 
+  .use('/api/projects',require('./routes/projects.routes')) 
+  .use('/api/tasks',require('./routes/task.routes')) 
+
 connectDB();
 
 app.use(logger('dev'));
@@ -18,8 +26,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
